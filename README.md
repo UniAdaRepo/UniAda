@@ -10,7 +10,7 @@ To successfully run the code, we provide a conda environment.yml file. Start by 
 <code> cd $UniAda_root/</code>
 
 ## Dataset:
-14 driving videos are stored in the folder dataset
+14 driving videos (both real-world and simulated) are stored in the folder data
 
 ## Train on Carla100 dataset:
 Set the dataset path:\
@@ -43,7 +43,7 @@ Please feel free to modify hyperparameters based on your need.
 cd MT
 
 To run UniAda,\
-<code>python3 update.py --method 'uni-dynamic' --title='episode_00000_pedestrain'</code>
+<code>python3 update.py --method 'uni-dynamic' --title='digital_Udacity_straight1'</code>
 
 To run baseline Perturbation Attack,\
 <code>python3 PA.py  --title='digital_Udacity_straight1'</code>
