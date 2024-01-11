@@ -7,10 +7,16 @@ To successfully run the code, we provide a conda environment.yml file. Start by 
 
 ## Path Setting:
 <code>UniAda_root=/path/to/clone/UniAda</code>
-<code> cd $UniAda_root/</code>
+<code>cd $UniAda_root/</code>
 
 ## Dataset:
 14 driving videos (both real-world and simulated) are stored in the folder data
+
+## Download Pretrained models:
+To download CILRS and CILR models, run:
+<code>python3 download_nocrash_models.py</code>
+
+Download MotionTransformer from [download](https://onedrive.live.com/?authkey=%21AGHA3pWwTPDxkJg&id=98408C909B12E88E%213090&cid=98408C909B12E88E&parId=root&parQt=sharedby&o=OneUp)
 
 ## Train on Carla100 dataset:
 Set the dataset path:\
