@@ -68,7 +68,7 @@ To run baseline UniEqual:\
 Please feel free to modify hyperparameters based on your need.
 
 ## Train on real-world dataset:
-cd MT
+<code>cd MT</code>
 
 To run UniAda,\
 <code>python3 update.py --method 'uni-dynamic' --title='digital_Udacity_straight1'</code>
