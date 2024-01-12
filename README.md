@@ -50,10 +50,12 @@ To run UniAda,\
 To run baseline Perturbation Attack (all videos):\
 cd Perturb_Att\
 <code>python3 run_CILR.py</code>
+<code>python3 run_CILRS.py</code>
 
 To run baseline DeepManeuver (all videos):\
 cd DM\
 <code>python3 run.py</code>
+<code>python3 run_CILRS.py</code>
 
 To run baseline DeepBillboard:\
 <code>python3 update.py --method 'deepbillboard' --title='episode_00000_pedestrian'</code>
