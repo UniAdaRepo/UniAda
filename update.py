@@ -40,6 +40,10 @@ augmenter = Augmenter(None)
 merge_with_yaml(os.path.join('configs/nocrash/resnet34imnet10S1.yaml'))
 model = CoILModel(g_conf.MODEL_TYPE, g_conf.MODEL_CONFIGURATION)
 checkpoint = torch.load(os.path.join('./_logs/nocrash/resnet34imnet10S1/checkpoints/660000.pth'))
+#load CILR model
+#merge_with_yaml(os.path.join('./gradnorm/configs/nocrash/resnet34imnet10-nospeed.yaml'))
+#model = CoILModel(g_conf.MODEL_TYPE, g_conf.MODEL_CONFIGURATION)
+#checkpoint = torch.load(os.path.join('./gradnorm/_logs/nocrash/resnet34imnet10-nospeed/checkpoints/760000.pth'))
 model.load_state_dict(checkpoint['state_dict'])
 model.cuda()
 model.eval()  # this is for turn off dropout
