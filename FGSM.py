@@ -39,7 +39,6 @@ def fgsmattack(model, data, dataset_central, hyper, w):
             output[1] * (-1 / beta) * d[1]), 1 / beta * torch.exp(output[2] * (-1 / beta) * d[2])
         loss = w[0] * lossA + w[1] * lossB + w[2] * lossC
         loss.backward()
-        breakpoint()
         perturbation = lr * torch.sign(image.grad.data)
 
         perturbation = torch.clamp((image.data - perturbation) - imgs_ori, min=-eps / 255,
@@ -58,18 +57,6 @@ def fgsmattack(model, data, dataset_central, hyper, w):
                                                                                             brake_iterlist['adv'][0]
     return steer_iterlist, throttle_iterlist, brake_iterlist, real_total_perturb_iterlist
 
-
-'''
-use ME (mean over stb) as selection metric
-grid search for finding a single best weight for each image frame in input video
-each img frame draw 250 weight samples
-choose w that (1) meet correct direction first
-              (2) achieves highest error
-
-input:
-full_dataset: a video
-
-'''
 
 
 def grid_search(hyper, model, full_dataset, augmenter):
@@ -103,7 +90,7 @@ def grid_search(hyper, model, full_dataset, augmenter):
             print('best weight index', np.argmax(np.array(record)))
             best_weight = weights[np.argmax(np.array(record))]
         ws.append(best_weight)
-    return ws  # return best weights for all image frames in this video
+    return ws  
 
 
 def run_fgsm(hyper, model, full_dataset, augmenter):
@@ -119,7 +106,7 @@ def run_fgsm(hyper, model, full_dataset, augmenter):
 
     if hyper['weight_strategy'] == 'grid search best':
         ws = grid_search(hyper, model, full_dataset, augmenter)
-        print(ws)
+        
     for i, data in enumerate(data_loader):  # load a single image frame
         if hyper['weight_strategy'] == 'grid search best':
             print('grid search best weight')
