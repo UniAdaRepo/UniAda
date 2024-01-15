@@ -1,4 +1,4 @@
-name: gradnorm
+name: uniada
 channels:
   - defaults
 dependencies:
@@ -88,4 +88,4 @@ dependencies:
     - vispy==0.11.0
     - wcwidth==0.2.5
     - widgetsnbextension==4.0.3
-prefix: /home/jzhang2297/.conda/envs/gradnorm
+prefix: /home/.conda/envs/gradnorm
