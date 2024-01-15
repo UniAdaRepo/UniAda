@@ -88,4 +88,4 @@ dependencies:
     - vispy==0.11.0
     - wcwidth==0.2.5
     - widgetsnbextension==4.0.3
-prefix: /home/.conda/envs/gradnorm
+prefix: /home/.conda/envs/uniada
