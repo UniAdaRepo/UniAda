@@ -61,11 +61,6 @@ def deepbillboard(model, dataset_central, oris, full_data, hyper):
                 o, _ = model.forward_branch(image[None, ...].cuda(), speed[None, ...].cuda(), controls[None, ...])
                 output = o[0]
 
-                # now minimize the loss
-                #if hyper['direction'] == 'right':  # max steer
-                    # lossA, lossB, lossC = -output[0], -output[1], output[2]
-                    # max the steer to min lossA, max the throttle to min lossB, min brake to min lossC
-
                 loss = -output[0] * ds # minimize the loss, ds=1 to steer right (max steer)
                 loss.backward()  # single image loss
                 grads = image.grad.data.clone()
@@ -87,7 +82,7 @@ def deepbillboard(model, dataset_central, oris, full_data, hyper):
             if strategy == 'sum':
                 combine = torch.sum(perturb, dim=0)
 
-            tmp_total_perturb = torch.clamp(total_perturb - lr * combine, min=-eps/255, max=eps/255)  # of size (3,88,200)
+            tmp_total_perturb = torch.clamp(total_perturb - lr * combine, min=-eps/255, max=eps/255)  
             tmp_adv_imgs = torch.clamp(torch.add(imgs_ori, tmp_total_perturb[None, ...]), min=0,
                                        max=1)  # update ALL images (not only those in minibatch)
 
@@ -97,7 +92,7 @@ def deepbillboard(model, dataset_central, oris, full_data, hyper):
                                                  dataset_central.extract_inputs(full_data).cuda(),
                                                  full_data['directions'])
                 adv_steer_vec, adv_throttle_vec, adv_brake_vec = output[:, 0], output[:, 1], output[:,
-                                                                                             2]  # current throttle pred
+                                                                                             2] 
 
             tmp_error_s = np.sum(np.abs(adv_steer_vec.data.cpu().numpy() - ori_steer_pred.data.cpu().numpy()))
             this_diff = tmp_error_s
@@ -172,11 +167,6 @@ def deepbillboard_multi(model, dataset_central, oris, full_data, hyper):
 
                 o, _ = model.forward_branch(image[None, ...].cuda(), speed[None, ...].cuda(), controls[None, ...])
                 output = o[0]
-
-                # now minimize the loss
-                #if hyper['direction'] == 'right':  # max steer
-                    # lossA, lossB, lossC = -output[0], -output[1], output[2]
-                    # max the steer to min lossA, max the throttle to min lossB, min brake to min lossC
 
                 #loss = -output[0] * ds # minimize the loss, ds=1 to steer right (max steer)
                 lossA, lossB, lossC = 1 / beta * torch.exp(output[0] * (-1 / beta) * d[0]), 1 / beta * torch.exp(
