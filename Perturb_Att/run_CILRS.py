@@ -1,6 +1,5 @@
-
 import sys
-sys.path.append('/home/jzhang2297/gradnorm/')
+sys.path.append('./gradnorm/')
 import os
 from configs import g_conf, merge_with_yaml
 from input import Augmenter, coil_valid_dataset
@@ -45,7 +44,7 @@ def success_rate(mean_serror, mean_terror, logger):
 '''
 compute mean error and median error metrics
 '''
-iterates = [10,20,30]
+iterates = [4]
 alpha = 1/255
 def compute_metric(serror_framelist, terror_framelist, logger):
     logger.info('----ME {0} for {1}, iters={2} ----'.format(title, method, iters))
@@ -69,7 +68,6 @@ def pgd(logger, eps=2/255, iter_num=4, alpha=1/255, beta=2.0):
     for i, data in enumerate(data_loader):
 
         # require gradient to perform pgd attack
-        #image = Variable(data['rgb'], requires_grad=True)
         imgs_ori = torch.squeeze(data['rgb'])
         image = Variable(imgs_ori, requires_grad=True)
         for iteration in range(iter_num):
@@ -95,11 +93,11 @@ def pgd(logger, eps=2/255, iter_num=4, alpha=1/255, beta=2.0):
     return s_adv, t_adv, etas
 method = 'Perturb_att'
 # load CILR model
-os.environ["COIL_DATASET_PATH"] = '/home/jzhang2297/UniAda-main'
+os.environ["COIL_DATASET_PATH"] = './UniAda-main'
 augmenter = Augmenter(None)
-merge_with_yaml(os.path.join('/home/jzhang2297/gradnorm/configs/nocrash/resnet34imnet10S1.yaml'))
+merge_with_yaml(os.path.join('./gradnorm/configs/nocrash/resnet34imnet10S1.yaml'))
 model = CoILModel(g_conf.MODEL_TYPE, g_conf.MODEL_CONFIGURATION)
-checkpoint = torch.load(os.path.join('/home/jzhang2297/gradnorm/_logs/nocrash/resnet34imnet10S1/checkpoints/660000.pth'))
+checkpoint = torch.load(os.path.join('./gradnorm/_logs/nocrash/resnet34imnet10S1/checkpoints/660000.pth'))
 model.load_state_dict(checkpoint['state_dict'])
 model.cuda()
 model.eval()  # this is for turn off dropout
@@ -107,7 +105,7 @@ full_dataset = os.path.join(os.environ["COIL_DATASET_PATH"], 'CARLA100')
 titles = ['episode_00000_pedestrian', 'zip3,00715,white_car,raining', 'zip6_epi02431_black car',
           'zip06,car,epi02472', 'zip3,00714,blue_car',
           'zip14,05013,red_light', 'OK,zip14,epi04600,car']
-save_path = '/home/jzhang2297/gradnorm/results/CILRS_logger/Perturb_att/'
+save_path = './gradnorm/results/CILRS_logger/Perturb_att/'
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 for iters in iterates:
@@ -137,13 +135,3 @@ for iters in iterates:
         logger.info('compute single run metric')
         compute_metric(serror, terror, logger)
         success_rate(serror, terror, logger)
-
-'''
-pedestrian: episode_00000_pedestrian
-white car: zip3,00715,white_car,raining
-black car: zip6_epi02431_black car
-Gray Car: zip06,car,epi02472
-Blue Car: zip3,00714,blue_car
-Red light: zip14,05013,red_light
-Light-blue car: OK,zip14,epi04600,car
-'''
