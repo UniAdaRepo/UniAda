@@ -102,8 +102,8 @@ model.cuda()
 model.eval()  # this is for turn off dropout
 full_dataset = os.path.join(os.environ["COIL_DATASET_PATH"], 'CARLA100')
 titles = ['episode_00000_pedestrian', 'zip3,00715,white_car,raining', 'zip6_epi02431_black car',
-          'zip06,car,epi02472', 'zip3,00714,blue_car',
-          'zip14,05013,red_light', 'OK,zip14,epi04600,car']
+          'zip06,gray_car,epi02472', 'zip3,00714,blue_car',
+          'zip14,05013,red_light', 'zip14,epi04600,light_blue_car']
 save_path = '/home/jzhang2297/gradnorm/results/CILR_logger/Perturb_att/'
 if not os.path.exists(save_path):
     os.makedirs(save_path)
