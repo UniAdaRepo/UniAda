@@ -1,4 +1,4 @@
-# UniAda
+# UniAda: Universal Adaptive Multi-objective Adversarial Attack for End-to-End Autonomous Driving Systems
 This repository contains experiments conducted in the paper 'UniAda: Universal Adaptive Multi-objective Adversarial Attack for End-to-End Autonomous Driving Systems'
 
 **Abstract**:  Adversarial attacks play a pivotal role in testing and improving the reliability of deep learning (DL) systems.
@@ -28,11 +28,12 @@ To successfully run the code, we provide a conda environment.yml file. Start by 
 <code>conda env create -f environment.yml</code>
 
 ## Path Setting:
+Please set the root path as follows:
 <code>UniAda_root=/path/to/clone/UniAda</code>
 <code>cd $UniAda_root/</code>
 
 ## Dataset:
-14 driving videos (both real-world and simulated) are stored in the folder data
+14 driving videos (both real-world and simulated) are provided in the folder -- data
 
 ## Download Pretrained models:
 To download CILRS and CILR models, run:
@@ -44,7 +45,7 @@ Download MotionTransformer from [download](https://onedrive.live.com/?authkey=%2
 Set the dataset path:\
 <code>export COIL_DATASET_PATH=$UniAda_root/</code>
 
-To run UniAda,\
+To run UniAda (modify args.title for different driving videos),\
 <code>python3 update.py --method 'uni-dynamic' --title='episode_00000_pedestrain'</code>
 
 To run baseline Perturbation Attack (all videos):\
@@ -57,13 +58,13 @@ cd DM\
 <code>python3 run.py</code>
 <code>python3 run_CILRS.py</code>
 
-To run baseline DeepBillboard:\
+To run baseline DeepBillboard (modify args.title for different driving videos):\
 <code>python3 update.py --method 'deepbillboard' --title='episode_00000_pedestrian'</code>
 
-To run baseline FGSM:\
+To run baseline FGSM (modify args.title for different driving videos):\
 <code>python3 update.py --method 'FGSM' --weights='equal' --iters 2 --title='episode_00000_pedestrian'</code>
 
-To run baseline UniEqual:\
+To run baseline UniEqual (modify args.title for different driving videos):\
 <code>python3 update.py --method 'uni-const' --weights='equal' --title='episode_00000_pedestrian'</code>
 
 
@@ -72,21 +73,21 @@ Please feel free to modify hyperparameters based on your need.
 ## Train on real-world dataset:
 <code>cd MT</code>
 
-To run UniAda,\
+To run UniAda (modify args.title for different driving videos):\
 <code>python3 update.py --method 'uni-dynamic' --title='digital_Udacity_straight1'</code>
 
-To run baseline Perturbation Attack,\
+To run baseline Perturbation Attack (modify args.title for different driving videos):\
 <code>python3 PA.py  --title='digital_Udacity_straight1'</code>
 
-To run baseline DeepManeuver,\
+To run baseline DeepManeuver (modify args.title for different driving videos):\
 <code>python3 DM.py  --title='digital_Udacity_straight1'</code>
 
-To run baseline DeepBillboard,\
+To run baseline DeepBillboard (modify args.title for different driving videos):\
 <code>python3 update.py --method 'deepbillboard' --title='digital_Udacity_straight1'</code>
 
-To run baseline FGSM,\
+To run baseline FGSM (modify args.title for different driving videos):\
 <code>python3 update.py --method 'FGSM' --weights='equal' --iters 2 --title='digital_Udacity_straight1'</code>
 
-To run baseline UniEqual,\
+To run baseline UniEqual (modify args.title for different driving videos):\
 <code>python3 update.py --method 'uni-const' --weights='equal' --title='digital_Udacity_straight1'</code>
 
