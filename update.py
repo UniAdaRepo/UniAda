@@ -26,7 +26,6 @@ parser.add_argument('--iters', default=250, type=int, help='number of epochs in 
 parser.add_argument('--alpha', default=10.0, type=float, help='hyperparmeter for Dynamic weights method')
 parser.add_argument('--method', default='FGSM', type=str, help='method: "uni-const", "uni-dynamic", "FGSM", "deepbillboard"')
 parser.add_argument('--title', default='zip3,00715,white_car,raining', type=str, help='title of the video data')
-parser.add_argument('--weights', default='equal', type=str, help='grid search best, equal, steer, throttle, brake, must be string')
 parser.add_argument('--times', default=1000, type=int, help='number of random weights in FGSM grid search')
 parser.add_argument('--direction', default="[1,1,-1]",type=str, help='testing task direction')
 parser.add_argument('--strategy', default='mean', type=str, help='strategy for combining pertubations in universal methods:"mean" or "max"')
@@ -99,7 +98,6 @@ if method =='uni-dynamic' or method=='uni-const':
     hyper = {}
     hyper['method'] = method
     hyper['direction'] = args.direction
-    print('hyper direction', hyper['direction'])
     hyper['strategy'] = args.strategy
     hyper['title'] = args.title
     hyper['runs'] = args.runs
@@ -112,14 +110,7 @@ if method =='uni-dynamic' or method=='uni-const':
     hyper['lr'] = args.lr
     hyper['lrgrad'] = args.lrgrad
     if method == 'uni-const':
-        if args.weights == 'equal':
-            hyper['weights'] = [1/3, 1/3, 1/3]
-        elif args.weights == 'steer':
-            hyper['weights'] = [1, 0, 0]
-        elif args.weights == 'throttle':
-            hyper['weights'] = [0, 1, 0]
-        else:
-            raise Exception('Error! Wrong args.weights given!')
+        hyper['weights'] = [1/3, 1/3, 1/3]
     mean_serror, mean_terror = training_uni(hyper, model, full_dataset, augmenter)
     success_rate(mean_serror, mean_terror, hyper)
     compute_metric(hyper, mean_serror, mean_terror)
@@ -127,9 +118,7 @@ if method =='uni-dynamic' or method=='uni-const':
 if method=='FGSM':
     hyper2 = {}
     hyper2['method'] = method
-    hyper2['weight_strategy'] = args.weights  # 'equal' or 'grid search best'
-    if hyper2['weight_strategy'] == 'grid search best':
-        hyper2['times'] = args.times   #grid search times
+    hyper2['weight_strategy'] = 'equal'
     hyper2['eps'] = args.eps
     hyper2['lr'] = args.lr
     hyper2['direction'] = args.direction
