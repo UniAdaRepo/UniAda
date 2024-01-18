@@ -32,7 +32,6 @@ parser.add_argument('--iters', default=250, type=int, help='number of epochs in 
 parser.add_argument('--alpha', default=10.0, type=float, help='hyperparmeter for Dynamic weights method')
 parser.add_argument('--method', default='FGSM', type=str, help='method: "uni-const", "uni-dynamic", "FGSM", "deepbillboard"')
 parser.add_argument('--title', default='digital_Udacity_straight1', type=str, help='title of the video data')
-parser.add_argument('--weights', default='equal', type=str, help='grid search best, equal, steer, throttle, brake, must be string')
 parser.add_argument('--times', default=1000, type=int, help='number of random weights in FGSM grid search')
 parser.add_argument('--direction', default="[-1,1]",type=str, help='testing task direction')
 parser.add_argument('--strategy', default='mean', type=str, help='strategy for combining pertubations in universal methods:"mean" or "max"')
@@ -132,7 +131,7 @@ def training_uni(hyper, model):
             os.path.join(args.save_path, '{0}_{1}_{2}_{3}.log'.format(method, args.weights, args.title, args.eps)), args.title, i)
         logger.info(
             'method = {0}, weights={1}, direction = {2}, video = {3}, eps={4}, lrgrad={5}, lr={6}, alpha={7}, beta={8}, iters={9}, scale={10}'.format(
-                method, args.weights,
+                method, None,
                 args.direction,
                 args.title, args.eps, args.lrgrad, args.lr, args.alpha, args.beta, args.iters, args.scale))
         if method == 'uni-dynamic':
@@ -177,22 +176,13 @@ if method =='uni-dynamic' or method=='uni-const':
     hyper['lrgrad'] = args.lrgrad
     hyper['scale'] = args.scale
     if method == 'uni-const':
-        if args.weights == 'equal':
-            hyper['weights'] = [1/2, 1/2]
-        elif args.weights == 'steer':
-            hyper['weights'] = [1, 0]
-        elif args.weights == 'throttle':
-            hyper['weights'] = [0, 1]
-        else:
-            raise Exception('Error! Wrong args.weights given!')
+        hyper['weights'] = [1/2, 1/2]
     mean_serror, mean_terror = training_uni(hyper, network)
 
 if method=='FGSM':
     hyper2 = {}
     hyper2['method'] = method
-    hyper2['weight_strategy'] = args.weights  # 'equal' or 'grid search best'
-    if hyper2['weight_strategy'] == 'grid search best':
-        hyper2['times'] = args.times   #grid search times
+    hyper2['weight_strategy'] = 'equal'
     hyper2['eps'] = args.eps
     hyper2['lr'] = args.eps/255
     hyper2['direction'] = args.direction
