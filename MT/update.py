@@ -20,7 +20,7 @@ import argparse
 parser = argparse.ArgumentParser(description='forward hyperparameters')
 parser.add_argument('--save_path', type=str, default='results/logger/',
                         help='model savepath')
-parser.add_argument('--eps', default=2.0, type=float, help='norm of perturbation: eps/255')
+parser.add_argument('--eps', default=5.0, type=float, help='norm of perturbation: eps/255')
 parser.add_argument('--scale', default=15.0, type=float, help='speed/scale')
 parser.add_argument('--lr', default=2/255, type=float, help='learning rate for image gradients')
 parser.add_argument('--bs', default=5, type=int, help='training batch size')
